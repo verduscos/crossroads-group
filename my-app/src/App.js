@@ -5,7 +5,7 @@ import React, { useState, useEffect} from 'react'
 function App() {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState([]);
+  const [commitHistory, setCommitHistory] = useState([]);
 
   useEffect(() => {
     fetch("https://api.github.com/repos/verduscos/crossroads-group/commits")
@@ -13,11 +13,8 @@ function App() {
       .then(
         (result) => {
           setIsLoaded(true);
-          setItems(result);
+          setCommitHistory(result);
         },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
         (error) => {
           setIsLoaded(true);
           setError(error);
@@ -32,10 +29,12 @@ function App() {
     return <div>Loading...</div>;
   } else {
     return (
-      <ul>
-        {items.map(item => (
-          <li key={item.id}>
-            {item.commit.author.name}
+      <ul id="commit-container">
+        {commitHistory.map(current => (
+          <li key={current.id}>
+            {current.commit.committer.name}
+            {current.commit.committer.date}
+            {current.commit.message}
           </li>
         ))}
       </ul>
