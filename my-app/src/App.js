@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import React, { useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 
 function App() {
   const [error, setError] = useState(null);
@@ -29,15 +29,24 @@ function App() {
     return <div>Loading...</div>;
   } else {
     return (
-      <ul id="commit-container">
-        {commitHistory.map(current => (
-          <li key={current.id}>
-            {current.commit.committer.name}
-            {current.commit.committer.date}
-            {current.commit.message}
-          </li>
-        ))}
-      </ul>
+        <ol reversed id="commit-container">
+        <div>
+          total commits: {commitHistory.length}
+        </div>
+          {commitHistory.map(current => (
+            <li key={current.id}>
+              <p>
+                Date: {current.commit.committer.date}
+              </p>
+              <p>
+                user: {current.commit.committer.name}
+              </p>
+              <p>
+                Commit Message: {current.commit.message}
+              </p>
+            </li>
+          ))}
+        </ol>
     );
   }
 }
